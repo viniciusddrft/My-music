@@ -1,0 +1,27 @@
+# appimage-builder recipe see https://appimage-builder.readthedocs.io for details
+version: 1
+script:
+ - rm -rf AppDir || true
+ - cp -r build/linux/x64/release/bundle AppDir
+ - mkdir -p AppDir/usr/share/icons/hicolor/64x64/apps/
+ - cp logo.svg AppDir/usr/share/icons/hicolor/64x64/apps/
+AppDir:
+  path: ./AppDir
+  app_info:
+    id: mymusic-flutter
+    name: My music
+    icon: logo
+    version: '1.0'
+    exec: my_music
+    exec_args: $@
+  files:
+    exclude:
+    - usr/share/man
+    - usr/share/doc/*/README.*
+    - usr/share/doc/*/changelog.*
+    - usr/share/doc/*/NEWS.*
+    - usr/share/doc/*/TODO.*
+AppImage:
+  arch: x86_64
+  update-information: guess
+  sign-key: None
