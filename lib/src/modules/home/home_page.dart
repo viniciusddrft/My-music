@@ -1,5 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:my_music/src/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_controller.dart';
 
@@ -12,6 +14,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final HomeController homeController = HomeController();
+  final ThemeApp themeApp = ThemeApp();
 
   @override
   void initState() {
@@ -45,13 +48,46 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(top: 20),
           child: Column(
             children: [
-              TextButton(
-                onPressed: homeController.playFile,
+              GestureDetector(
+                onTap: homeController.playFile,
                 child: const Text(
                   'Selecionar arquivo',
-                  style: TextStyle(color: Colors.white),
                 ),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 30),
+                    child: Text('Tema'),
+                  ),
+                  const Icon(
+                    Icons.light_mode,
+                    color: Colors.yellow,
+                  ),
+                  Switch(
+                      value: themeApp.isDarkThemeApp,
+                      onChanged: (bool value) async {
+                        setState(() {
+                          if (!value) {
+                            themeApp.changeTheme(Brightness.light);
+                            SharedPreferences.getInstance().then(
+                              (value) => value.setString('theme', 'light'),
+                            );
+                          } else {
+                            themeApp.changeTheme(Brightness.dark);
+                            SharedPreferences.getInstance().then(
+                              (value) => value.setString('theme', 'dark'),
+                            );
+                          }
+                        });
+                      }),
+                  const Icon(
+                    Icons.dark_mode,
+                    color: Colors.blue,
+                  )
+                ],
+              ),
             ],
           ),
         ),
@@ -59,15 +95,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.settings),
-            )
-          ],
-        ),
+        iconTheme: IconThemeData(
+            color: themeApp.isDarkThemeApp ? Colors.white : Colors.black),
       ),
       body: FractionallySizedBox(
         widthFactor: 1,
