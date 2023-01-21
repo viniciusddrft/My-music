@@ -24,12 +24,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void dispose() {
-    themeApp.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: themeApp.theme,
@@ -42,5 +36,11 @@ class _MyAppState extends State<MyApp> {
         home: const MyHomePage(),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    themeApp.dispose();
+    super.dispose();
   }
 }
