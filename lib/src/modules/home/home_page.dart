@@ -13,8 +13,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final HomeController homeController = HomeController();
-  final ThemeApp themeApp = ThemeApp();
+  final homeController = HomeController();
+  final themeApp = ThemeApp();
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.sizeOf(context);
 
     return Scaffold(
       drawer: Drawer(

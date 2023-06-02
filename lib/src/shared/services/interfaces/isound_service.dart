@@ -1,4 +1,4 @@
-abstract class IsoundService {
+abstract interface class IsoundService {
   Stream get playerState;
   Stream<Duration> get positionState;
   Stream<Duration> get durationState;

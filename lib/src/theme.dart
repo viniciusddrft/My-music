@@ -9,8 +9,7 @@ class ThemeApp {
 
   factory ThemeApp() => _themeApp;
 
-  final ValueNotifier<Brightness> theme =
-      ValueNotifier<Brightness>(themeSystem);
+  final theme = ValueNotifier<Brightness>(themeSystem);
 
   bool get isDarkThemeApp => theme.value == Brightness.dark;
 

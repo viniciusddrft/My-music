@@ -1,5 +1,5 @@
 import 'dart:io';
 
-abstract class IfilePickerService {
+abstract interface class IfilePickerService {
   Future<File?> getFile();
 }

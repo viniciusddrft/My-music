@@ -9,18 +9,11 @@ import '../../shared/services/sound_service.dart';
 class HomeController {
   final soundService = SoundService();
   final _ifilePickerService = FilePickerService();
-  final ValueNotifier<Duration> durationMusic =
-      ValueNotifier<Duration>(Duration.zero);
-
-  final ValueNotifier<Duration> positionMusic =
-      ValueNotifier<Duration>(Duration.zero);
-
-  final ValueNotifier<PlayerState> playerState =
-      ValueNotifier<PlayerState>(PlayerState.stopped);
-
-  final ValueNotifier<double> volumeMusic = ValueNotifier<double>(1);
-
-  final ValueNotifier<String> nameMusic = ValueNotifier<String>('');
+  final durationMusic = ValueNotifier<Duration>(Duration.zero);
+  final positionMusic = ValueNotifier<Duration>(Duration.zero);
+  final playerState = ValueNotifier<PlayerState>(PlayerState.stopped);
+  final volumeMusic = ValueNotifier<double>(1);
+  final nameMusic = ValueNotifier<String>('');
 
   void playFile() async {
     final File? file = await _ifilePickerService.getFile();
@@ -31,13 +24,9 @@ class HomeController {
     }
   }
 
-  void pause() {
-    soundService.pause();
-  }
+  void pause() => soundService.pause();
 
-  void resume() {
-    soundService.resume();
-  }
+  void resume() => soundService.resume();
 
   void playUrl() async {
     soundService.playUrl(
