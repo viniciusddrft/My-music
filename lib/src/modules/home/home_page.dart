@@ -103,7 +103,17 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0,
         backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(
-            color: themeApp.isDarkThemeApp ? Colors.white : Colors.black),
+          color: themeApp.isDarkThemeApp ? Colors.white : Colors.black,
+        ),
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(
+              Icons.menu,
+              color: Colors.deepPurple,
+            ),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
       ),
       body: FractionallySizedBox(
         widthFactor: 1,
