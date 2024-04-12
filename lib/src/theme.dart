@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeApp {
   ThemeApp._();
 
-  static final ThemeApp _themeApp = ThemeApp._();
+  static final _themeApp = ThemeApp._();
 
   factory ThemeApp() => _themeApp;
 
-  final theme = ValueNotifier<Brightness>(themeSystem);
+  final theme = ValueNotifier<Brightness>(
+      WidgetsBinding.instance.platformDispatcher.platformBrightness);
 
   bool get isDarkThemeApp => theme.value == Brightness.dark;
-
-  static Brightness get themeSystem =>
-      WidgetsBinding.instance.platformDispatcher.platformBrightness;
-
-  static bool get isDarkThemeSystem =>
-      WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-      Brightness.dark;
 
   void changeTheme(Brightness newTheme) => theme.value = newTheme;
 
@@ -29,7 +22,8 @@ class ThemeApp {
           final String? preference = value.getString('theme');
           if (preference != null) {
             if (preference == 'system') {
-              _themeApp.theme.value = themeSystem;
+              _themeApp.theme.value =
+                  WidgetsBinding.instance.platformDispatcher.platformBrightness;
             } else if (preference == 'dark') {
               _themeApp.theme.value = Brightness.dark;
             } else if (preference == 'light') {

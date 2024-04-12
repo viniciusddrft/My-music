@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_music/src/theme.dart';
-
 import 'src/modules/home/home_page.dart';
 
 void main() {
@@ -15,7 +14,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final ThemeApp themeApp = ThemeApp();
+  final themeApp = ThemeApp();
 
   @override
   void initState() {
@@ -27,11 +26,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
       valueListenable: themeApp.theme,
-      builder: (BuildContext context, Brightness value, Widget? child) =>
-          MaterialApp(
-        theme: ThemeData(
-          brightness: themeApp.theme.value,
-        ),
+      builder: (BuildContext context, Brightness theme, _) => MaterialApp(
+        theme: ThemeData(brightness: theme, primaryColor: Colors.deepPurple),
         title: 'My music',
         home: const MyHomePage(),
       ),

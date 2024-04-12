@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/foundation.dart';
-
 import '../../shared/services/filepicker_service.dart';
 import '../../shared/services/sound_service.dart';
 
@@ -27,11 +25,6 @@ class HomeController {
   void pause() => soundService.pause();
 
   void resume() => soundService.resume();
-
-  void playUrl() async {
-    soundService.playUrl(
-        'https://s3.amazonaws.com/scifri-episodes/scifri20181123-episode.mp3');
-  }
 
   void setVolume(double volume) {
     volumeMusic.value = volume;

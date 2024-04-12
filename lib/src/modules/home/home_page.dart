@@ -2,7 +2,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:my_music/src/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'home_controller.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -41,46 +40,60 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: homeController.playFile,
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple),
+                onPressed: homeController.playFile,
                 child: const Text(
                   'Selecionar arquivo',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(right: 30),
-                    child: Text('Tema'),
-                  ),
-                  const Icon(
-                    Icons.light_mode,
-                    color: Colors.yellow,
-                  ),
-                  Switch(
-                      value: themeApp.isDarkThemeApp,
-                      onChanged: (bool value) async {
-                        setState(() {
-                          if (!value) {
-                            themeApp.changeTheme(Brightness.light);
-                            SharedPreferences.getInstance().then(
-                              (value) => value.setString('theme', 'light'),
-                            );
-                          } else {
-                            themeApp.changeTheme(Brightness.dark);
-                            SharedPreferences.getInstance().then(
-                              (value) => value.setString('theme', 'dark'),
-                            );
-                          }
-                        });
-                      }),
-                  const Icon(
-                    Icons.dark_mode,
-                    color: Colors.blue,
-                  )
-                ],
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 30),
+                      child: Text('Tema'),
+                    ),
+                    const Icon(
+                      Icons.light_mode,
+                      color: Colors.yellow,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ValueListenableBuilder(
+                          valueListenable: themeApp.theme,
+                          builder: (context, value, _) {
+                            return Switch(
+                                value: value == Brightness.dark,
+                                onChanged: (bool value) async {
+                                  if (!value) {
+                                    themeApp.changeTheme(Brightness.light);
+                                    SharedPreferences.getInstance().then(
+                                      (value) =>
+                                          value.setString('theme', 'light'),
+                                    );
+                                  } else {
+                                    themeApp.changeTheme(Brightness.dark);
+                                    SharedPreferences.getInstance().then(
+                                      (value) =>
+                                          value.setString('theme', 'dark'),
+                                    );
+                                  }
+                                });
+                          }),
+                    ),
+                    const Icon(
+                      Icons.dark_mode,
+                      color: Colors.blue,
+                    )
+                  ],
+                ),
               ),
             ],
           ),
@@ -101,8 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               ValueListenableBuilder(
                 valueListenable: homeController.nameMusic,
-                builder: (BuildContext context, String value, Widget? child) =>
-                    Text(
+                builder: (BuildContext context, String value, _) => Text(
                   homeController.nameMusic.value,
                   style: const TextStyle(fontSize: 30),
                 ),
@@ -112,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   homeController.durationMusic,
                   homeController.positionMusic
                 ]),
-                builder: (BuildContext context, Widget? child) => homeController
+                builder: (BuildContext context, _) => homeController
                             .durationMusic.value.inSeconds
                             .toDouble() >=
                         homeController.positionMusic.value.inSeconds.toDouble()
@@ -127,6 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           homeController.positionMusic.value =
                               Duration(seconds: value.toInt());
                         },
+                        activeColor: Colors.deepPurple,
                       )
                     : const CircularProgressIndicator(),
               ),
@@ -140,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           value == PlayerState.paused ||
                                   value == PlayerState.stopped
                               ? CircleAvatar(
-                                  backgroundColor: Colors.blue,
+                                  backgroundColor: Colors.deepPurple,
                                   child: IconButton(
                                     splashRadius: 21,
                                     onPressed: homeController.resume,
@@ -150,29 +163,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                     ),
                                   ),
                                 )
-                              : value == PlayerState.playing
-                                  ? CircleAvatar(
-                                      backgroundColor: Colors.red,
-                                      child: IconButton(
-                                        splashRadius: 21,
-                                        onPressed: homeController.pause,
-                                        icon: const Icon(
-                                          Icons.pause,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    )
-                                  : CircleAvatar(
-                                      backgroundColor: Colors.blue,
-                                      child: IconButton(
-                                        splashRadius: 21,
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.play_arrow,
-                                          color: Colors.black,
-                                        ),
-                                      ),
+                              : CircleAvatar(
+                                  backgroundColor: Colors.red,
+                                  child: IconButton(
+                                    splashRadius: 21,
+                                    onPressed: homeController.pause,
+                                    icon: const Icon(
+                                      Icons.pause,
+                                      color: Colors.black,
                                     ),
+                                  ),
+                                ),
                     ),
                   ),
                   Padding(
@@ -198,8 +199,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                 Flexible(
                                   flex: 4,
                                   child: Slider(
-                                      value: homeController.volumeMusic.value,
-                                      onChanged: homeController.setVolume),
+                                    value: homeController.volumeMusic.value,
+                                    onChanged: homeController.setVolume,
+                                    activeColor: Colors.deepPurple,
+                                  ),
                                 ),
                               ],
                             ),
